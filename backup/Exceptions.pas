@@ -177,7 +177,7 @@ var
       MoveId := StrToInt(Move);
       CheckMoveId(Team, MoveId);
       Response := QueryAPI('POST', '/teams/' + Number + '/state', MoveId);
-      if Response.StatusCode <> 200 then
+      if Response.StatusCode <> 201 then
         WriteLn('POZOR!: Zadání pohybu se nezdařilo.')
       else
         PrintTeam(Response.Body);
