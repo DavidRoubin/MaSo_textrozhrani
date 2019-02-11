@@ -142,7 +142,11 @@ var
     Name := Team.FindPath('name').AsString;
     StateRecord := Team.FindPath('stateRecord').AsString;
     WriteLn(Number + '. ' + Name);
-    WriteLn(' ' + StateRecord);
+    TextBackground(lightGreen);
+    TextColor(White);
+    WriteLn(' ' + StateRecord + ' ');
+    TextBackground(Black);
+    TextColor(White);
     PrintMoves(Team.FindPath('possibleMoves'));
   end;
 
@@ -229,13 +233,15 @@ var
     end;
   end;
 
-  procedure AppendHistoryRecord(InputHistory: TTeamInputHistory; Action: String; ActionResult: TActionResult);
+  procedure AppendHistoryRecord(var InputHistory: TTeamInputHistory;
+    Action: string; ActionResult: TActionResult);
   var
     HistoryRecord, Current: PHistoryRecord;
   begin
     new(HistoryRecord);
     HistoryRecord^.Input := Action;
     HistoryRecord^.Output := ActionResult.Result;
+    HistoryRecord^.Next := nil;
     if InputHistory.History = nil then
       InputHistory.History := HistoryRecord
     else
@@ -265,7 +271,7 @@ var
   procedure RedrawScreen(TeamInputHistory: TTeamInputHistory);
   begin
     clrscr;
-    WriteLn('Zadej číslo týmu: ' + TeamInputHistory.Team.FindPath('number').AsString );
+    WriteLn('Zadej číslo týmu: ' + TeamInputHistory.Team.FindPath('number').AsString);
     PrintTeam(TeamInputHistory.Team);
     PrintInputHistory(TeamInputHistory.History);
   end;
